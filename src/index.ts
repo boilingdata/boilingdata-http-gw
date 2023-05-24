@@ -22,8 +22,16 @@ interface IStatement {
 }
 
 async function closeWebSocket(): Promise<void> {
+  if (!isBoilingConnected) return;
   await bd.close();
   isBoilingConnected = false;
+  console.log({ timestamp: new Date().toISOString(), isBoilingConnected });
+}
+
+async function openWebSocket(): Promise<void> {
+  if (isBoilingConnected) return;
+  await bd.connect();
+  isBoilingConnected = true;
   console.log({ timestamp: new Date().toISOString(), isBoilingConnected });
 }
 
@@ -32,34 +40,23 @@ router.get("/healthcheck", async (ctx, next) => {
   await next();
 });
 
-// Pass SQL to BD and the response back
+// Pass SQL to Boiling and await the response back
 router.post("/", async (ctx, next) => {
+  clearTimeout(idleTimeout);
   console.log(ctx.request.body);
-  const b = <IStatement>ctx.request.body;
-  if (!isBoilingConnected) {
-    await bd.connect();
-    isBoilingConnected = true;
-    console.log({ timestamp: new Date().toISOString(), isBoilingConnected });
-  }
-  const resp = await bd.execQueryPromise({
-    sql: b.statement,
-    requestId: `${(Math.random() * 10000).toFixed(0)}`,
-  });
+  await openWebSocket();
+  const sql = (<IStatement>ctx.request.body).statement;
+  const requestId = `${(Math.random() * 10000).toFixed(0)}`;
+  const resp = await bd.execQueryPromise({ sql, requestId });
   ctx.body = JSON.stringify(resp);
   await next();
-  if (idleTimeout) clearTimeout(idleTimeout);
   idleTimeout = setTimeout(closeWebSocket, idleTimeoutMs);
 });
 
-// Middlewares
 app.use(json());
 app.use(logger());
 app.use(bodyParser());
-
-// Routes
 app.use(router.routes()).use(router.allowedMethods());
-
-// start
 app.listen(3000, async () => {
   // BD connection
   bd = new BoilingData({
