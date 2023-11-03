@@ -8,9 +8,25 @@
 BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up
 ```
 
+> You can run queries both locally and remote on Boiling from the same BI Tool interface as Buenavista Proxy accompanies DuckDB database. Your BI Tool does not need to know the difference, it's all SQL.
+
+## BI Tools via Presto connector
+
 See the [docker-compose.yml](docker-compose.yml) file for running some BI Tools.
 
-> You can run queries both locally and remote on Boiling from the same BI Tool interface as Buenavista Proxy accompanies DuckDB database. Your BI Tool does not need to know the difference, it's all SQL.
+Example with Metabase:
+
+### 1. Select Presto connector
+
+![1. Select Presto](./doc/boiling-with-metabase-1.png)
+
+### 2. Configure connection to Boiling Buenavista
+
+![2. Configure](./doc/boiling-with-metabase-2.png)
+
+### 3. Run seamless local and remote SQL queries
+
+![3. Enjoy](./doc/boiling-with-metabase-3.png)
 
 ## Standalone
 
