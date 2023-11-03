@@ -5,11 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:local": "node dist/index.js",
-    "build": "tsc && docker-compose build",
-    "prestart": "tsc",
-    "start": "docker-compose up boilingdata_http_gw",
-    "start:all": "docker-compose up"
+    "build": "tsc && docker-compose build"
   },
   "dependencies": {
     "@boilingdata/node-boilingdata": "^1.0.14",
