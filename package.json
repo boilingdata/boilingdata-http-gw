@@ -5,25 +5,36 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start:local": "node dist/index.js",
+    "build": "tsc && docker-compose build",
     "prestart": "tsc",
-    "start": "node index.js"
+    "start": "docker-compose up boilingdata_http_gw",
+    "start:all": "docker-compose up"
   },
   "dependencies": {
-    "@boilingdata/node-boilingdata": "^0.1.0",
+    "@boilingdata/node-boilingdata": "^1.0.14",
     "aws-sdk": "^2.1338.0",
+    "gridjs": "5.1.0",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.4.0",
+    "koa-cors": "^0.0.16",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
-    "koa-router": "^12.0.0"
+    "koa-mount": "^4.0.0",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "nodemon": "^2.0.21"
   },
   "devDependencies": {
-    "@types/koa": "^2.13.5",
+    "@types/koa": "^2.13.10",
     "@types/koa-bodyparser": "^4.3.10",
+    "@types/koa-cors": "^0.0.2",
     "@types/koa-json": "^2.0.20",
     "@types/koa-logger": "^3.1.2",
     "@types/koa-router": "^7.4.4",
+    "@types/koa__router": "^12.0.3",
     "@types/node": "^18.15.3",
+    "@types/ws": "^8.5.8",
     "typescript": "^5.0.2"
   }
 }

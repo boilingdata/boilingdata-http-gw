@@ -1,0 +1,82 @@
+version: "3.7"
+
+services:
+  ##
+  ## CloudBeaver
+  ##
+  # cloudbeaver:
+  #   image: dbeaver/cloudbeaver:latest
+  #   ports:
+  #     - "8978:8978"
+  #   depends_on:
+  #     - boilingdata_http_gw
+  #     - buenavista
+
+  ##
+  ## Apache Superset
+  ##
+  ## Starting guide:
+  ## 1. docker exec -it superset superset fab create-admin --username admin --firstname Superset --lastname Admin --email admin@superset.com --password admin
+  ## 2. docker exec -it superset superset db upgrade
+  ## (3. docker exec -it superset superset load_examples)
+  ## 4. docker exec -it superset superset init
+  # superset:
+  #   container_name: superset
+  #   image: apache/superset
+  #   ports:
+  #     - 8080:8088
+  #   environment:
+  #     - SUPERSET_SECRET_KEY=your_secret_key_here
+  #   volumes:
+  #     - superset_home:/app/superset_home
+
+  ##
+  ## Metabase
+  ##
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+
+  boilingdata_http_gw:
+    build: .
+    image: boilingdata_http_gw
+    ports:
+      - "3100:3100"
+    environment:
+      - BD_USERNAME=${BD_USERNAME}
+      - BD_PASSWORD=${BD_PASSWORD}
+    volumes:
+      - shared_tmpfs:/tmp/data
+      - ./src/static:/src/src/static:ro
+    # healthcheck:
+    #   test: ["CMD", "curl", "-v", "http://localhost:3000/healthcheck"]
+    #   interval: 10s
+    #   timeout: 2s
+    #   retries: 10
+    #   start_period: 5s
+
+  buenavista:
+    image: buenavista
+    container_name: buenavista
+    volumes:
+      - ./data/:/src/data
+      - shared_tmpfs:/tmp/data
+    ports:
+      - "5433:5433"
+    environment:
+      - BUENAVISTA_HOST=0.0.0.0
+      - BUENAVISTA_PORT=5433
+    depends_on:
+      - boilingdata_http_gw
+
+volumes:
+  redis:
+    external: false
+  superset_home:
+    external: false
+  shared_tmpfs:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs

@@ -1,17 +1,15 @@
 # BoilingData HTTP Gateway
 
-## TL;DR
+1. Checkout [Buenavista Boiling Proxy](https://github.com/dforsber/buenavista) and create docker image.
+2. Compile and build (this) Boiling HTTP Gateway
+3. See the [docker-compose.yml](docker-compose.yml) file for running some BI Tools
+
+You can run queries both locally and remote on Boiling from the same BI Tool interface as Buenavista Proxy accompanies DuckDB database. Your BI Tool does not need to know the difference, it's all SQL.
 
 ```shell
-yarn install
-BD_USERNAME=myUsername BD_PASSWORD=myPassword yarn start
-curl -s -H 'Content-Type: application/json' localhost:3000 -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;\"}" | jq .
+BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up
 ```
 
-## Python snippet
+## Standalone
 
-```python
-import requests
-data = requests.post("http://localhost:3000", json={"statement":"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;"})
-print(data.json())
-```
+See [standalone with python](doc/standalone.md).
