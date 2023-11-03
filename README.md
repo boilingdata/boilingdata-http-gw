@@ -1,10 +1,12 @@
 # BoilingData HTTP Gateway
 
+0. Register to [Boiling](https://app.boilingdata.com/) either online or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
 1. Compile and build Boiling HTTP Gateway: `yarn build`
 2. Checkout [Buenavista Boiling Proxy](https://github.com/dforsber/buenavista) and build it (creates `buenavista` docker image)
 3. Start e.g. Metabase, Boiling Buenavista, and Boiling HTTP GW locally and start querying
 
 ```shell
+# Your BoilingData credentials are passed through the environment variables
 BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up
 ```
 
