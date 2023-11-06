@@ -8,7 +8,7 @@
     "build": "tsc && docker-compose build"
   },
   "dependencies": {
-    "@boilingdata/node-boilingdata": "^1.0.14",
+    "@boilingdata/node-boilingdata": "^1.0.16",
     "aws-sdk": "^2.1338.0",
     "gridjs": "5.1.0",
     "koa": "^2.14.1",

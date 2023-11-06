@@ -20,6 +20,7 @@ const idleTimeoutMs = 300 * 1000; // 5min
 let idleTimeout: NodeJS.Timeout;
 let isBoilingConnected = false;
 
+const isDebug = process.env["DEBUG"] == "true";
 const username = process.env["BD_USERNAME"];
 const password = process.env["BD_PASSWORD"];
 if (!password || !username) throw new Error("Set BD_USERNAME and BD_PASSWORD envs");
@@ -55,7 +56,7 @@ router.post("/", async (ctx, next) => {
   const sql = (<IStatement>ctx.request.body).statement;
   const requestId = `${(Math.random() * 10000).toFixed(0)}`;
   const resp = await bd.execQueryPromise({ sql, requestId });
-  console.log({ resp });
+  // console.log({ resp });
   ctx.body = JSON.stringify(resp);
   await next();
   idleTimeout = setTimeout(closeWebSocket, idleTimeoutMs);
@@ -79,7 +80,7 @@ const httpServer = http.createServer(app.callback()).listen(HTTP_PORT, HOST, asy
   bd = new BoilingData({
     username,
     password,
-    endpointUrl: "wss://e4f3t7fs58.execute-api.eu-west-1.amazonaws.com/devbd/",
+    endpointUrl: isDebug ? "wss://e4f3t7fs58.execute-api.eu-west-1.amazonaws.com/devbd/" : undefined,
     globalCallbacks: undefined,
     logLevel: "debug",
     region: "eu-west-1",

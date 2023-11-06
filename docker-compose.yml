@@ -47,8 +47,8 @@ services:
     environment:
       - BD_USERNAME=${BD_USERNAME}
       - BD_PASSWORD=${BD_PASSWORD}
+      - DEBUG=${DEBUG}
     volumes:
-      - shared_tmpfs:/tmp/data
       - ./src/static:/src/src/static:ro
     # healthcheck:
     #   test: ["CMD", "curl", "-v", "http://localhost:3000/healthcheck"]
@@ -60,9 +60,6 @@ services:
   buenavista:
     image: buenavista
     container_name: buenavista
-    volumes:
-      - ./data/:/src/data
-      - shared_tmpfs:/tmp/data
     ports:
       - "5433:5433"
     environment:
@@ -76,7 +73,3 @@ volumes:
     external: false
   superset_home:
     external: false
-  shared_tmpfs:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
