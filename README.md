@@ -26,6 +26,8 @@ Example with Metabase:
 
 ### 2. Configure connection to Boiling Buenavista
 
+**NOTE! Use "boilingdata" catalog instead of "main"**
+
 ![2. Configure](./doc/boiling-with-metabase-2.png)
 
 ### 3. Run seamless local and remote SQL queries
