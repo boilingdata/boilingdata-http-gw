@@ -31,6 +31,29 @@ services:
   #     - superset_home:/app/superset_home
 
   ##
+  ## Cube
+  ##
+  # cube:
+  #   image: cubejs/cube:latest
+  #   container_name: cube
+  #   ports:
+  #     - 4000:4000
+  #     - 15432:15432
+  #   environment:
+  #     - CUBEJS_DEV_MODE=true
+  #     - CUBEJS_DB_TYPE=prestodb
+  #     - CUBEJS_DB_HOST=buenavista
+  #     - CUBEJS_DB_PORT=5433
+  #     - CUBEJS_DB_USER=me
+  #     - CUBEJS_DB_SSL=false
+  #     - CUBEJS_DB_PRESTO_CATALOG=boilingdata
+  #   volumes:
+  #     - .:/cube/conf
+  #   depends_on:
+  #     - boilingdata_http_gw
+  #     - buenavista
+
+  ##
   ## Metabase
   ##
   metabase:
@@ -38,6 +61,9 @@ services:
     container_name: metabase
     ports:
       - "3000:3000"
+    depends_on:
+      - boilingdata_http_gw
+      - buenavista
 
   boilingdata_http_gw:
     build: .
