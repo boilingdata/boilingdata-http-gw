@@ -10,7 +10,9 @@
 ## Register
 
 1. Register to [Boiling](https://app.boilingdata.com/) either online or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
-2. Compile and build Boiling HTTP Gateway: `yarn install && yarn build`, see also [standalone with python](doc/standalone.md) guide.
+2. Compile and build Boiling HTTP Gateway: `yarn install && yarn build`
+
+> NOTE: see also [standalone with python](doc/standalone.md) guide.
 
 ```shell
 yarn install
