@@ -9,10 +9,8 @@
 
 ## Register
 
-1. Register to [Boiling](https://app.boilingdata.com/) either online or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
-2. Compile and build Boiling HTTP Gateway: `yarn install && yarn build`
-
-> NOTE: see also [standalone with python](doc/standalone.md) guide.
+1. Register to [Boiling either online](https://app.boilingdata.com/) or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
+2. Compile and build Boiling HTTP Gateway container image:
 
 ```shell
 yarn install
@@ -21,8 +19,7 @@ yarn build
 BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up -d boilingdata_http_gw
 # Ready to query Boiling!
 curl -s -H 'Content-Type: application/json' localhost:3100 \
-    -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet');\"}" \
-    | jq .
+    -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet');\"}"
 ```
 
 The `curl` command returns 10 entries similar to this.
@@ -43,10 +40,11 @@ The `curl` command returns 10 entries similar to this.
     "salary": 49756.53,
     "title": "Internal Auditor",
     "comments": "1E+02"
-  },
-  ...
+  }
 ]
 ```
+
+> NOTE: see also [standalone with python](doc/standalone.md) guide.
 
 ## BI Tools via Presto connector
 
