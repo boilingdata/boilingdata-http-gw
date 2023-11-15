@@ -13,11 +13,13 @@ BD_USERNAME=myUsername BD_PASSWORD=myPassword docker-compose up -d
 Query Boiling with curl or Python
 
 ```shell
-curl -s -H 'Content-Type: application/json' localhost:3100 -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;\"}" | jq .
+curl -s -H 'Content-Type: application/json' localhost:3100 \
+    -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet');\"}"
 ```
 
 ```python
 import requests
-data = requests.post("http://localhost:3100", json={"statement":"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;"})
+sql = "SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet');"
+data = requests.post("http://localhost:3100",json={"statement":sql})
 print(data.json())
 ```
