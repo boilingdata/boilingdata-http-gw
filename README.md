@@ -13,6 +13,7 @@
 2. Compile and build Boiling HTTP Gateway container image:
 
 ```shell
+node --version  # you need node v18 or later
 yarn install
 yarn build
 # Your BoilingData credentials are passed through the environment variables
