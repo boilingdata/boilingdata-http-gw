@@ -82,6 +82,7 @@ Example with Metabase:
 ### 4. Discover Boiling Data Catalog - Data Sets shared to you
 
 ![4. Discover](./doc/boiling-with-metabase-4.png)
+![5. Metadata](./doc/boiling-with-metabase-5.png)
 
 ## Standalone HTTP Gateway
 
