@@ -17,10 +17,13 @@ yarn install
 yarn build
 # Your BoilingData credentials are passed through the environment variables
 BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up -d boilingdata_http_gw
-curl -s -H 'Content-Type: application/json' localhost:3100 -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;\"}" | jq .
+# Ready to query Boiling!
+curl -s -H 'Content-Type: application/json' localhost:3100 \
+    -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet');\"}" \
+    | jq .
 ```
 
-The `curl` command returns
+The `curl` command returns 10 entries similar to this.
 
 ```json
 [
@@ -38,7 +41,8 @@ The `curl` command returns
     "salary": 49756.53,
     "title": "Internal Auditor",
     "comments": "1E+02"
-  }
+  },
+  ...
 ]
 ```
 
