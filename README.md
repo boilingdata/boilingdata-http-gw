@@ -53,6 +53,10 @@ If you want to run BI Tool with Presto connector:
 - Checkout [Buenavista Boiling Proxy](https://github.com/dforsber/buenavista) and build it (creates `buenavista` docker image)
 - Start e.g. Metabase, Boiling Buenavista, and Boiling HTTP GW locally and start querying
 
+```shell
+BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up -d
+```
+
 > You can run queries both locally and remote on Boiling from the same BI Tool interface as Buenavista Proxy accompanies DuckDB database. Your BI Tool does not need to know the difference, it's all SQL.
 
 > The Boiling Buenavista Proxy handles all the SQL queries, has embedded DuckDB as default target. By matching the SQL with keywoards we relay some queries to Boiling, get the results back to local DuckDB and update the query to consume the results now in the local DuckDB.
@@ -74,6 +78,10 @@ Example with Metabase:
 ### 3. Run seamless local and remote SQL queries
 
 ![3. Enjoy](./doc/boiling-with-metabase-3.png)
+
+### 4. Discover Boiling Data Catalog - Data Sets shared to you
+
+![4. Discover](./doc/boiling-with-metabase-4.png)
 
 ## Standalone HTTP Gateway
 
