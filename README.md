@@ -1,20 +1,57 @@
 # BoilingData HTTP Gateway
 
-0. Register to [Boiling](https://app.boilingdata.com/) either online or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
-1. Compile and build Boiling HTTP Gateway: `yarn build`
-2. Checkout [Buenavista Boiling Proxy](https://github.com/dforsber/buenavista) and build it (creates `buenavista` docker image)
-3. Start e.g. Metabase, Boiling Buenavista, and Boiling HTTP GW locally and start querying
+- [Register](#register)
+- [BI Tools via Presto connector](#bi-tools-via-presto-connector)
+  - [1. Select Presto connector](#1-select-presto-connector)
+  - [2. Configure connection to Boiling Buenavista](#2-configure-connection-to-boiling-buenavista)
+  - [3. Run seamless local and remote SQL queries](#3-run-seamless-local-and-remote-sql-queries)
+- [Standalone HTTP Gateway](#standalone-http-gateway)
+
+## Register
+
+1. Register to [Boiling](https://app.boilingdata.com/) either online or by using the [BDCLI](https://github.com/boilingdata/boilingdata-bdcli).
+2. Compile and build Boiling HTTP Gateway: `yarn install && yarn build`, see also [standalone with python](doc/standalone.md) guide.
 
 ```shell
+yarn install
+yarn build
 # Your BoilingData credentials are passed through the environment variables
-BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up
+BD_USERNAME=myBdAccount@cc.com BD_PASSWORD=myBdSecretPw docker-compose up -d boilingdata_http_gw
+curl -s -H 'Content-Type: application/json' localhost:3100 -d "{\"statement\":\"SELECT * FROM parquet_scan('s3://boilingdata-demo/test.parquet') LIMIT 1;\"}" | jq .
 ```
+
+The `curl` command returns
+
+```json
+[
+  {
+    "registration_dttm": "2016-02-03 07:55:29+00",
+    "id": 1,
+    "first_name": "Amanda",
+    "last_name": "Jordan",
+    "email": "ajordan0@com.com",
+    "gender": "Female",
+    "ip_address": "1.197.201.2",
+    "cc": "6759521864920116",
+    "country": "Indonesia",
+    "birthdate": "3/8/1971",
+    "salary": 49756.53,
+    "title": "Internal Auditor",
+    "comments": "1E+02"
+  }
+]
+```
+
+## BI Tools via Presto connector
+
+If you want to run BI Tool with Presto connector:
+
+- Checkout [Buenavista Boiling Proxy](https://github.com/dforsber/buenavista) and build it (creates `buenavista` docker image)
+- Start e.g. Metabase, Boiling Buenavista, and Boiling HTTP GW locally and start querying
 
 > You can run queries both locally and remote on Boiling from the same BI Tool interface as Buenavista Proxy accompanies DuckDB database. Your BI Tool does not need to know the difference, it's all SQL.
 
 > The Boiling Buenavista Proxy handles all the SQL queries, has embedded DuckDB as default target. By matching the SQL with keywoards we relay some queries to Boiling, get the results back to local DuckDB and update the query to consume the results now in the local DuckDB.
-
-# BI Tools via Presto connector
 
 See the [docker-compose.yml](docker-compose.yml) file for running some BI Tools.
 
@@ -34,6 +71,6 @@ Example with Metabase:
 
 ![3. Enjoy](./doc/boiling-with-metabase-3.png)
 
-## Standalone
+## Standalone HTTP Gateway
 
 See [standalone with python](doc/standalone.md).
